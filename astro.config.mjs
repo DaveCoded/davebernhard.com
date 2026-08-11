@@ -32,4 +32,10 @@ export default defineConfig({
       },
     },
   ],
+  markdown: {
+    shikiConfig: {
+      // TODO: set the theme to work with whatever background, text and accent colours you choose
+      theme: 'rose-pine-dawn',
+    },
+  },
 });
