@@ -4,6 +4,115 @@
   License MIT: https://github.com/HermanMartinus/bearblog/blob/master/LICENSE.md
  */
 
+/* 
+============= Font loading fallbacks for ET Book =============
+*/
+/* Palatino for Mac, Palatino Linotype for Windows */
+@font-face {
+  font-family: 'ET Book Mac and Windows Fallback';
+  src: local('Palatino'), local('Palatino Linotype');
+  font-display: swap;
+  font-weight: 400;
+  font-style: normal;
+  size-adjust: 90.5593%;
+  ascent-override: 98.9403%;
+  descent-override: 34.0764%;
+}
+@font-face {
+  font-family: 'ET Book Mac and Windows Fallback';
+  src: local('Palatino Italic'), local('Palatino Linotype Italic');
+  font-display: swap;
+  font-weight: 400;
+  font-style: italic;
+  size-adjust: 90.002%;
+  ascent-override: 98.7934%;
+  descent-override: 34.0704%;
+}
+@font-face {
+  font-family: 'ET Book Mac and Windows Fallback';
+  src: local('Palatino Bold'), local('Palatino Linotype Bold');
+  font-display: swap;
+  font-weight: 700;
+  font-style: normal;
+  size-adjust: 88.4589%;
+  ascent-override: 106.0366%;
+  descent-override: 34.8856%;
+}
+/* P052 is a renaming of URW Palladio L */
+/* For some reason, P052 Roman is the name required. I didn't test URW Palladio, so have hedged by including multiple local() sources.*/
+@font-face {
+  font-family: 'ET Book Linux Fallback';
+  src:
+    local ('P052'),
+    local('P052 Roman'),
+    local('URW Palladio L'),
+    local('URW Palladio L Roman');
+  font-display: swap;
+  font-weight: 400;
+  font-style: normal;
+  size-adjust: 91.188%;
+  ascent-override: 98.2581%;
+  descent-override: 33.8415%;
+}
+@font-face {
+  font-family: 'ET Book Linux Fallback';
+  src: local('P052 Italic'), local('URW Palladio L Italic');
+  font-display: swap;
+  font-weight: 400;
+  font-style: italic;
+  size-adjust: 91.2226%;
+  ascent-override: 97.4715%;
+  descent-override: 33.6146%;
+}
+@font-face {
+  font-family: 'ET Book Linux Fallback';
+  src: local('P052 Bold'), local('URW Palladio L Bold');
+  font-display: swap;
+  font-weight: 700;
+  font-style: normal;
+  size-adjust: 88.5317%;
+  ascent-override: 105.9494%;
+  descent-override: 34.8569%;
+}
+/*
+  * Since it's very common across OS's, and is used as Chromium browser fallback, Times New Roman
+  * works well as a last optimised fallback serif (for reducing CLS) before letting the OS or
+  * browser pick an unoptimised default, which could be some sans-serif like Arial.
+*/
+@font-face {
+  font-family: 'ET Book Generic Fallback';
+  src: local('Times New Roman');
+  font-display: swap;
+  font-weight: 400;
+  font-style: normal;
+  size-adjust: 99.8798%;
+  ascent-override: 89.7074%;
+  descent-override: 30.8965%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: 'ET Book Generic Fallback';
+  src: local('Times New Roman');
+  font-display: swap;
+  font-weight: 400;
+  font-style: italic;
+  size-adjust: 99.8798%;
+  ascent-override: 89.7074%;
+  descent-override: 30.8965%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: 'ET Book Generic Fallback';
+  src: local('Times New Roman Bold');
+  font-display: swap;
+  font-weight: 700;
+  font-style: normal;
+  size-adjust: 93.7923%;
+  ascent-override: 95.5298%;
+  descent-override: 32.9018%;
+  line-gap-override: 0%;
+}
+
 :root {
   --accent: #2337ff;
   --accent-dark: #000d8a;
@@ -17,7 +126,8 @@
     0 16px 32px rgba(var(--gray), 33%);
 }
 body {
-  font-family: var(--font-atkinson);
+  font-family: var(--font-etbook), serif;
+  -webkit-font-smoothing: antialiased;
   margin: 0;
   padding: 0;
   text-align: left;
