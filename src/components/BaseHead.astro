@@ -31,10 +31,11 @@ const { title, description, image = FallbackImage } = Astro.props;
   href={new URL('rss.xml', Astro.site)}
 />
 
-<!-- TODO: Would it make sense just to preload some weights and not all? -->
-<!-- Maybe preload should be different in blog post layout, even. Depends what weights get used on what pages -->
-<!-- ? Would it make sense to preload regular, which gets used as bold and italic, and then load those in as needed? -->
-<Font cssVariable="--font-etbook" preload />
+<!-- TODO: Check we don't need to preload italic after redesign -->
+<Font
+  cssVariable="--font-etbook"
+  preload={[{ weight: 400, style: 'normal' }, { weight: 700 }]}
+/>
 
 <!-- Canonical URL -->
 <link rel="canonical" href={canonicalURL} />
