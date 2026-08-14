@@ -127,7 +127,8 @@
 }
 body {
   font-family: var(--font-etbook), serif;
-  -webkit-font-smoothing: antialiased;
+  /* todo: disabled for dev. Enable when shipping? */
+  /* -webkit-font-smoothing: antialiased; */
   margin: 0;
   padding: 0;
   text-align: left;
