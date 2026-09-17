@@ -3,11 +3,12 @@
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import { defineConfig, fontProviders } from 'astro/config';
+import { clickToSource } from 'astro-click-to-source';
 
 // https://astro.build/config
 export default defineConfig({
   site: 'https://example.com',
-  integrations: [mdx(), sitemap()],
+  integrations: [mdx(), sitemap(), clickToSource()],
   fonts: [
     {
       provider: fontProviders.local(),
@@ -45,8 +46,7 @@ export default defineConfig({
   ],
   markdown: {
     shikiConfig: {
-      // TODO: set the theme to work with whatever background, text and accent colours you choose
-      theme: 'rose-pine-dawn',
+      theme: 'poimandres',
     },
   },
 });

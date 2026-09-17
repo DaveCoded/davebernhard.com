@@ -114,7 +114,9 @@
 }
 
 :root {
-  --accent: #2337ff;
+  --site-background-color: #fffaf8;
+  --text-color: #411e0b;
+  --accent: #7f3106;
   --accent-dark: #000d8a;
   --black: 15, 18, 25;
   --gray: 96, 115, 159;
@@ -132,11 +134,10 @@ body {
   margin: 0;
   padding: 0;
   text-align: left;
-  background: linear-gradient(var(--gray-gradient)) no-repeat;
-  background-size: 100% 600px;
   word-wrap: break-word;
   overflow-wrap: break-word;
-  color: rgb(var(--gray-dark));
+  background-color: var(--site-background-color);
+  color: var(--text-color);
   font-size: 20px;
   line-height: 1.7;
 }
@@ -153,17 +154,24 @@ h4,
 h5,
 h6 {
   margin: 0 0 0.5rem 0;
-  color: rgb(var(--black));
   line-height: 1.2;
 }
 h1 {
-  font-size: 3.052em;
+  font-size: 50px;
+  font-variant-caps: small-caps;
+  line-height: 0.85;
+  text-wrap-style: pretty;
 }
 h2 {
-  font-size: 2.441em;
+  font-size: 32px;
+  font-weight: 400;
+  margin-top: 3.5rem;
+  margin-bottom: 1rem;
 }
 h3 {
-  font-size: 1.953em;
+  font-size: 22px;
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
 }
 h4 {
   font-size: 1.563em;
@@ -177,15 +185,19 @@ b {
 }
 a {
   color: var(--accent);
+  transition: hover 100ms;
 }
 a:hover {
-  color: var(--accent);
+  color: #b8480b;
 }
 p {
   margin-bottom: 1em;
 }
 .prose p {
-  margin-bottom: 2em;
+  font-size: 20px;
+  line-height: 31px;
+  margin-block-start: 0.5rem;
+  margin-block-end: 1rem;
 }
 textarea {
   width: 100%;
@@ -200,25 +212,34 @@ table {
 img {
   max-width: 100%;
   height: auto;
+  margin: 4px 0px;
   border-radius: 8px;
 }
+ul li::marker {
+  content: '◈  ';
+  font-size: 16px;
+}
 code {
+  font-size: 15px;
   padding: 2px 5px;
-  background-color: rgb(var(--gray-light));
+  background-color: oklch(0.95 0 0);
   border-radius: 2px;
 }
 pre {
-  padding: 1.5em;
+  font-family:
+    ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas,
+    'DejaVu Sans Mono', monospace;
+  font-size: 16px;
+  padding: 1rem 1.7rem;
   border-radius: 8px;
 }
 pre > code {
   all: unset;
 }
 blockquote {
-  border-left: 4px solid var(--accent);
-  padding: 0 0 0 20px;
+  padding: 8px 40px;
   margin: 0;
-  font-size: 1.333em;
+  font-style: italic;
 }
 hr {
   border: none;

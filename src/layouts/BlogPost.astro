@@ -8,7 +8,7 @@ import Header from '../components/Header.astro';
 
 type Props = CollectionEntry<'blog'>['data'];
 
-const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+const { title, description, heroImage } = Astro.props;
 ---
 
 <html lang="en">
@@ -30,27 +30,26 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
         box-shadow: var(--box-shadow);
       }
       .prose {
-        width: 720px;
+        width: 68ch;
         max-width: calc(100% - 2em);
         margin: auto;
         padding: 1em;
         color: rgb(var(--gray-dark));
       }
       .title {
-        margin-bottom: 1em;
-        padding: 1em 0;
-        text-align: center;
-        line-height: 1;
+        margin-top: 4rem;
+        margin-bottom: 3.5rem;
       }
       .title h1 {
-        margin: 0 0 0.5em 0;
+        line-height: 0.85;
+        margin-bottom: 1.5rem;
+        text-align: center;
       }
-      .date {
-        margin-bottom: 0.5em;
-        color: rgb(var(--gray));
-      }
-      .last-updated-on {
-        font-style: italic;
+      .hr {
+        width: 30%;
+        margin: 0 auto;
+        height: 1px;
+        background-color: oklch(0.92 0 0);
       }
     </style>
   </head>
@@ -68,18 +67,8 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
         </div>
         <div class="prose">
           <div class="title">
-            <div class="date">
-              <FormattedDate date={pubDate} />
-              {
-                updatedDate && (
-                  <div class="last-updated-on">
-                    Last updated on <FormattedDate date={updatedDate} />
-                  </div>
-                )
-              }
-            </div>
             <h1>{title}</h1>
-            <hr />
+            <div class="hr"></div>
           </div>
           <slot />
         </div>

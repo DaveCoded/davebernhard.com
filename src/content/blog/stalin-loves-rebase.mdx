@@ -1,0 +1,50 @@
+---
+title: 'Stalin loves a rebase'
+subtitle: 'How to clean up messy commits'
+description: 'A workflow to clean up messy commits and keep your git history clean. Use with caution!'
+pubDate: 'June 08 2023'
+tags: ['git']
+---
+
+import { Image } from 'astro:assets';
+import interactiveRebase from '../../assets/images/stalin-loves-rebase/interactive-rebase-window.png';
+import squashedCommits from '../../assets/images/stalin-loves-rebase/squashed-commits.png';
+import editedCommit from '../../assets/images/stalin-loves-rebase/edited-commit.png';
+
+Ideally, every commit should be a single, atomic change. But in reality,
+we end up with messy commits that contain multiple changes. In fact, it's pretty common
+when iterating through ideas on a feature branch.
+
+This is a simple workflow to clean up messy commits and keep your git history clean.
+
+But please use it with caution, as it rewrites git history. If you have other team members who
+might want to use the branch, definitely don't use it. Or if you have any doubts,
+don't use it. It's not necessary.
+
+## Method
+
+Switch to the branch you want to clean up, and run `git rebase -i`.
+
+This will open up an interactive rebase window. You'll see a list of commits, and a list of
+commands you can run on each commit. The default command is `pick`, which means "keep this commit
+as is".
+
+<Image src={interactiveRebase} alt="Interactive rebase window" />
+
+Keep the top one annotated with `pick` (or just `p` for short), but change all the ones below it—every previous commit—to
+`squash` (or `s` for short). This will combine all the commits into one.
+
+<Image
+  src={squashedCommits}
+  alt="Interactive rebase window with squash annotations"
+/>
+
+Now you can `git rebase -i` again. This time you should see just one commit on your branch, which you can
+annotate with `edit` (or `e` for short).
+
+<Image src={editedCommit} alt="Interactive rebase window with edited commit" />
+
+Use `git reset HEAD^` to move the commit's changes back to the staging area.
+Now you can use incrementally add and commit changes cleanly.
+
+When you're done, don't forget to `git rebase --continue` to finish the rebase.
