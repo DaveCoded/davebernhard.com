@@ -20,14 +20,13 @@ const posts = (await getCollection('blog')).sort(
         flex-direction: column;
       }
       main {
-        width: 680px;
+        width: 42.5rem;
         flex: 1;
         display: flex;
         flex-direction: column;
         gap: 4rem;
       }
       .welcome-para {
-        font-size: 18px;
         text-wrap: pretty;
       }
       ul {
@@ -37,14 +36,14 @@ const posts = (await getCollection('blog')).sort(
         list-style-type: none;
         padding: 0;
         margin: 0;
-        margin-left: -16px;
+        margin-left: -1rem;
       }
       ul li a {
         display: block;
         color: inherit;
         text-decoration: none;
-        padding: 8px 16px;
-        border-radius: 6px;
+        padding: 0.5rem 1rem;
+        border-radius: 0.375rem;
         transition: background-color 140ms ease-out;
         cursor: pointer;
       }
@@ -54,8 +53,8 @@ const posts = (await getCollection('blog')).sort(
       }
       ul li a:focus-visible {
         outline: 2px solid var(--accent);
-        outline-offset: 8px;
-        border-radius: 2px;
+        outline-offset: 0.5rem;
+        border-radius: 0.125rem;
       }
       .writing-section {
         margin-bottom: 3rem;
@@ -63,7 +62,7 @@ const posts = (await getCollection('blog')).sort(
       .title {
         margin: 0;
         color: var(--text-color);
-        font-size: 30px;
+        font-size: 1.875rem;
         font-weight: 400;
         letter-spacing: -0.4px;
         line-height: 1.08;
@@ -74,18 +73,18 @@ const posts = (await getCollection('blog')).sort(
         max-width: 42rem;
         margin: 0.38rem 0 0;
         color: var(--accent);
-        font-size: 19px;
+        font-size: 1.1875rem;
         line-height: 1.25;
         text-wrap: pretty;
       }
       .date {
         display: flex;
         align-items: center;
-        gap: 10px;
-        margin: 0 0 10px;
+        gap: 0.625rem;
+        margin: 0 0 0.625rem;
         color: #88756b;
         font-family: var(--sans-serif-stack);
-        font-size: 12px;
+        font-size: 0.75rem;
         font-variant-numeric: tabular-nums;
         font-weight: 650;
         letter-spacing: 1px;
@@ -94,7 +93,7 @@ const posts = (await getCollection('blog')).sort(
         white-space: nowrap;
       }
       .date::after {
-        width: 40px;
+        width: 2.5rem;
         height: 1px;
         background: #ccbdb5;
         content: '';
