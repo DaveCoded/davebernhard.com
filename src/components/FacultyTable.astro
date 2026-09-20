@@ -1,4 +1,4 @@
-<div>
+<div class="table-scroll" role="region" aria-label="Faculty data table" tabindex="0">
   <table>
     <thead>
       <tr>
@@ -26,11 +26,14 @@
 </div>
 
 <style>
-  div {
-    margin: var(--space-lg) 0;
+  .table-scroll {
+    max-width: 100%;
+    overflow-x: auto;
+    margin: 2rem 0;
   }
 
   table {
+    min-width: 600px;
     border-spacing: 0;
     border: 1px solid black;
     tr {
