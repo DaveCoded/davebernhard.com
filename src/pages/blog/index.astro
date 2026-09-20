@@ -1,7 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseHead from '../../components/BaseHead.astro';
-import Footer from '../../components/Footer.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
 import Header from '../../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
@@ -44,13 +43,11 @@ const posts = (await getCollection('blog')).sort(
         padding: 8px 16px;
         border-radius: 6px;
         transition: background-color 140ms ease-out;
-      }
-      ul li a,
-      ul li a :global(*) {
         cursor: pointer;
       }
       ul li a:hover {
         background-color: #f7ebe5;
+        color: inherit;
       }
       ul li a:focus-visible {
         outline: 2px solid var(--accent);
@@ -121,6 +118,5 @@ const posts = (await getCollection('blog')).sort(
         </ul>
       </section>
     </main>
-    <Footer />
   </body>
 </html>

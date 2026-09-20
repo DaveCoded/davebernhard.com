@@ -1,9 +1,7 @@
 ---
-import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
-import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
 
 type Props = CollectionEntry<'blog'>['data'];
@@ -34,11 +32,13 @@ const { title, description } = Astro.props;
         margin-bottom: 1.5rem;
         text-align: center;
       }
-      .hr {
+      .title::after {
+        display: block;
+        content: '';
         width: 30%;
         margin: 0 auto;
         height: 1px;
-        background-color: oklch(0.92 0 0);
+        background-color: oklch(0.88 0.03 49.47);
       }
     </style>
   </head>
@@ -50,7 +50,6 @@ const { title, description } = Astro.props;
         <div class="prose">
           <div class="title">
             <h1>{title}</h1>
-            <div class="hr"></div>
           </div>
           <slot />
         </div>

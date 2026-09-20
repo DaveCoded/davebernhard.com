@@ -1,63 +1,147 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
-import Footer from '../components/Footer.astro';
+import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+      }
+      main {
+        width: 680px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 4rem;
+      }
+      footer {
+        margin-top: auto;
+        padding: 0;
+        background-color: red;
+      }
+      ul {
+        display: flex;
+        flex-direction: column;
+        gap: 2.3rem;
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        margin-left: -16px;
+      }
+      ul li a {
+        display: block;
+        color: inherit;
+        text-decoration: none;
+        padding: 8px 16px;
+        border-radius: 6px;
+        transition: background-color 140ms ease-out;
+        cursor: pointer;
+      }
+      ul li a:hover {
+        background-color: #f7ebe5;
+        color: inherit;
+      }
+      ul li a:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 8px;
+        border-radius: 2px;
+      }
+      .writing-section {
+        margin-bottom: 3rem;
+      }
+      .title {
+        margin: 0;
+        color: var(--text-color);
+        font-size: 30px;
+        font-weight: 400;
+        letter-spacing: -0.4px;
+        line-height: 1.08;
+        text-wrap: pretty;
+        transition: color 150ms ease;
+      }
+      .subtitle {
+        max-width: 42rem;
+        margin: 0.38rem 0 0;
+        color: var(--accent);
+        font-size: 19px;
+        line-height: 1.25;
+        text-wrap: pretty;
+      }
+      .date {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 0 0 10px;
+        color: #88756b;
+        font-family: var(--sans-serif-stack);
+        font-size: 12px;
+        font-variant-numeric: tabular-nums;
+        font-weight: 650;
+        letter-spacing: 1px;
+        line-height: 1.3;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+      .date::after {
+        width: 40px;
+        height: 1px;
+        background: #ccbdb5;
+        content: '';
+      }
+    </style>
   </head>
   <body>
     <Header />
     <main>
-      <h1>🧑‍🚀 Hello, Astronaut!</h1>
-      <p>
-        Welcome to the official <a href="https://astro.build/">Astro</a> blog starter
-        template. This template serves as a lightweight, minimally-styled starting
-        point for anyone looking to build a personal website, blog, or portfolio with
-        Astro.
-      </p>
-      <p>
-        This template comes with a few integrations already configured in your
-        <code>astro.config.mjs</code> file. You can customize your setup with
-        <a href="https://astro.build/integrations">Astro Integrations</a> to add tools
-        like Tailwind, React, or Vue to your project.
-      </p>
-      <p>Here are a few ideas on how to get started with the template:</p>
-      <ul>
-        <li>Edit this page in <code>src/pages/index.astro</code></li>
-        <li>
-          Edit the site header items in <code>src/components/Header.astro</code>
-        </li>
-        <li>
-          Add your name to the footer in <code>src/components/Footer.astro</code
-          >
-        </li>
-        <li>
-          Check out the included blog posts in <code>src/content/blog/</code>
-        </li>
-        <li>
-          Customize the blog post page layout in <code
-            >src/layouts/BlogPost.astro</code
-          >
-        </li>
-      </ul>
-      <p>
-        Have fun! If you get stuck, remember to
-        <a href="https://docs.astro.build/">read the docs</a>
-        or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-      </p>
-      <p>
-        Looking for a blog template with a bit more personality? Check out
-        <a href="https://github.com/Charca/astro-blog-template"
-          >astro-blog-template</a
-        >
-        by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-      </p>
+      <section>
+        <!-- <h1>You found me!</h1> -->
+        <p>
+          Welcome to my personal website. I'm a senior frontend developer and
+          this is where I publish my thoughts, opinions, tips, what I'm learning
+          about, and experiments.
+        </p>
+        <p>
+          It's not much right now because it's currently 🚧 under construction
+          🚧
+        </p>
+        <p>
+          Check back soon for more <code>/about-me</code>, what I've done for <code
+            >/work</code
+          >, and what I'm doing right <code>/now</code>.
+        </p>
+      </section>
+
+      <section class="writing-section">
+        <ul>
+          {
+            posts.map((post) => (
+              <li>
+                <a href={`/blog/${post.id}/`}>
+                  <p class="date">
+                    <FormattedDate date={post.data.pubDate} />
+                  </p>
+                  <h4 class="title">{post.data.title}</h4>
+                  {post.data.subtitle && (
+                    <p class="subtitle">{post.data.subtitle}</p>
+                  )}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
     </main>
-    <Footer />
   </body>
 </html>
