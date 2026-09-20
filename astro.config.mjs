@@ -7,7 +7,7 @@ import { clickToSource } from 'astro-click-to-source';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://example.com',
+  site: 'https://davebernhard.com',
   integrations: [mdx(), sitemap(), clickToSource()],
   fonts: [
     {

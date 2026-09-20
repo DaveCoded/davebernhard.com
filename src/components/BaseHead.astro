@@ -30,10 +30,13 @@ const { title, description, image } = Astro.props;
   href={new URL('rss.xml', Astro.site)}
 />
 
-<!-- todo: Check I don't need to preload italic after redesign -->
 <Font
   cssVariable="--font-etbook"
-  preload={[{ weight: 400, style: 'normal' }, { weight: 700 }]}
+  preload={[
+    { weight: 400, style: 'normal' },
+    { weight: 700 },
+    { weight: 400, style: 'italic' },
+  ]}
 />
 
 <!-- Canonical URL -->
@@ -48,8 +51,6 @@ const { title, description, image } = Astro.props;
 <meta property="og:url" content={Astro.url} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
-<!-- todo: do I need this? What does it look like with no image? -->
-<meta property="og:image" content={new URL(image?.src ?? '', Astro.url)} />
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image" />

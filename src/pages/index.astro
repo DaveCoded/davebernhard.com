@@ -26,10 +26,8 @@ const posts = (await getCollection('blog')).sort(
         flex-direction: column;
         gap: 4rem;
       }
-      footer {
-        margin-top: auto;
-        padding: 0;
-        background-color: red;
+      .welcome-para {
+        text-wrap: pretty;
       }
       ul {
         display: flex;
@@ -106,20 +104,10 @@ const posts = (await getCollection('blog')).sort(
     <Header />
     <main>
       <section>
-        <!-- <h1>You found me!</h1> -->
-        <p>
-          Welcome to my personal website. I'm a senior frontend developer and
-          this is where I publish my thoughts, opinions, tips, what I'm learning
-          about, and experiments.
-        </p>
-        <p>
-          It's not much right now because it's currently 🚧 under construction
-          🚧
-        </p>
-        <p>
-          Check back soon for more <code>/about-me</code>, what I've done for <code
-            >/work</code
-          >, and what I'm doing right <code>/now</code>.
+        <p class="welcome-para">
+          Welcome to my personal website. I'm a senior frontend developer from
+          London and this is where I publish my thoughts, opinions, tips, what
+          I'm learning about, and experiments.
         </p>
       </section>
 

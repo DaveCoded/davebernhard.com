@@ -1,7 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
-import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 
 type Props = CollectionEntry<'blog'>['data'];
@@ -55,6 +54,5 @@ const { title, description } = Astro.props;
         </div>
       </article>
     </main>
-    <Footer />
   </body>
 </html>
