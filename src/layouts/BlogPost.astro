@@ -5,7 +5,10 @@ import Header from '../components/Header.astro';
 
 type Props = CollectionEntry<'blog'>['data'];
 
-const { title, description } = Astro.props;
+const { title, description, pubDate } = Astro.props;
+const formattedDate = pubDate.toLocaleDateString(undefined, {
+  dateStyle: 'medium',
+});
 ---
 
 <html lang="en">
@@ -25,18 +28,18 @@ const { title, description } = Astro.props;
       }
       .title {
         margin-bottom: 3.5rem;
+        text-align: center;
       }
       .title h1 {
         font-size: clamp(2rem, 7vw, 3.125rem);
-        line-height: 1.05;
-        margin-bottom: 1.5rem;
-        text-align: center;
+        line-height: 0.95;
+        margin-bottom: 0.5rem;
       }
       .title::after {
         display: block;
         content: '';
         width: 30%;
-        margin: 0 auto;
+        margin: 1rem auto 0;
         height: 1px;
         background-color: oklch(0.88 0.03 49.47);
       }
@@ -50,6 +53,9 @@ const { title, description } = Astro.props;
         <div class="prose">
           <div class="title">
             <h1>{title}</h1>
+            <div class="date">
+              {formattedDate}
+            </div>
           </div>
           <slot />
         </div>
