@@ -233,6 +233,14 @@ input {
 table {
   width: 100%;
 }
+/* Dropcap */
+@supports (initial-letter: 3 2) or (-webkit-initial-letter: 3 2) {
+  .prose p:first-of-type::first-letter {
+    initial-letter: 3 2;
+    -webkit-initial-letter: 3 2;
+    margin-right: 0.5em;
+  }
+}
 .prose table {
   width: auto;
   max-width: 100%;
