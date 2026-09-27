@@ -32,9 +32,11 @@ import HeaderLink from './HeaderLink.astro';
     display: flex;
     align-items: center;
     justify-content: space-between;
+    max-width: 1000px;
+    margin: 0 auto;
   }
   nav a {
-    padding: 1em 0.5em;
+    padding: 1em 0;
     color: var(--black);
     text-decoration: none;
     font-variant-caps: small-caps;
@@ -42,13 +44,8 @@ import HeaderLink from './HeaderLink.astro';
   nav a.active {
     text-decoration: underline;
   }
-  .social-links,
-  .social-links a {
+  .internal-links {
     display: flex;
-  }
-  @media (max-width: 45rem) {
-    .social-links {
-      display: none;
-    }
+    gap: 1rem;
   }
 </style>
