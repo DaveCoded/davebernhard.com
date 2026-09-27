@@ -171,7 +171,7 @@ h2 {
   font-size: 2rem;
   font-weight: 400;
   margin-top: 3rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
 }
 .prose h2 {
   font-size: clamp(1.5rem, 4.5vw, 2rem);
@@ -220,6 +220,38 @@ input {
 }
 table {
   width: 100%;
+}
+.prose table {
+  width: auto;
+  max-width: 100%;
+  margin-block: 1.5rem 2rem;
+  border-collapse: collapse;
+  font-size: 1.125rem;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+.prose th,
+.prose td {
+  padding: 0.4rem 1.5rem 0.4rem 0;
+  text-align: left;
+  vertical-align: top;
+  line-height: 1.3;
+}
+
+.prose thead th {
+  padding-bottom: 0.75rem;
+  line-height: 1.2;
+}
+
+/* No space after the final column */
+.prose tr > :last-child {
+  padding-right: 0;
+}
+
+/* No space beneath the table */
+.prose tbody tr:last-child > * {
+  padding-bottom: 0;
+  border-bottom: 0;
 }
 img {
   max-width: 100%;
