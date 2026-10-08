@@ -63,7 +63,7 @@ Provided you know of CSS's _immense power_, this is relatively simple to achieve
 [`:nth-of-type()`](https://developer.mozilla.org/en-US/docs/Web/CSS/:nth-of-type), which became widely
 available in 2015.[^1] (Though back then you'd probably have had to use `list-style-image` with four image files
 or the [`::before`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/::before) pseudo-element.[^2])
-Now though, we can use `list-style-type` and a string.
+Now though, we can use `list-style-type` and a string.[^4]
 
 ```css
 ul > li:nth-of-type(4n + 1) {
@@ -135,8 +135,8 @@ ul {
 
 The word `cyclic` is doing real work here. Leave it out and the default is `symbolic`: after the
 four single suits, you'd get ♠︎♠︎, ♥︎♥︎, and so on, which is excellent for footnote symbols, which
-conventionally follow this sequence *, †, ‡, §, \*\*, ††, ‡‡.[^5] If you need to reuse a style,
-control its separator, define a fallback, or give a hint about how it should be *spoken\*, you
+conventionally follow this sequence \*, †, ‡, §, \*\*, ††, ‡‡.[^5] If you need to reuse a style,
+control its separator, define a fallback, or give a hint about how it should be _spoken_, you
 need the full `@counter-style` rule. For an anonymous one-off, `symbols()` will be an option
 once browser support catches up. Firefox implemented both in 2014; `@counter-style` reached Chrome
 and Edge in 2021 and Safari in 2023, but `symbols()` still has limited availability.[^6]
@@ -152,7 +152,7 @@ counter style will still produce the four suits in order: ♠︎ ♥︎ ♦︎ �
 
 Imagine you were showing a list of filtered search results. You'd probably want the _visible_ sequence to
 close up. For four fixed slots where a hidden slot should retain its place, then the `:nth-of-type()`
-selector is precisely right. The question to ask yourself is \_what are you counting?
+selector is precisely right. The question to ask yourself is _what are you counting_?
 
 A plainer demonstration of the differences would be to use [`<ol start="3">`](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/ol#start).
 Using a counter style means starting at ♦︎. But the first `<li>` is still the first `<li>`, so `:nth-of-type()` starts at ♠︎.
@@ -205,6 +205,6 @@ I dedicate this blog post to my seven year old self, who continues to inspire me
 
 [^6]: [Browser adoption for `@counter-style`](https://web-platform-dx.github.io/web-features-explorer/features/counter-style/) and [MDN's `symbols()` support note](https://developer.mozilla.org/en-US/docs/Web/CSS/symbols). Support for a feature's core syntax does not imply support for every descriptor: for example, [`speak-as` has its own compatibility story](https://developer.mozilla.org/en-US/docs/Web/CSS/@counter-style/speak-as).
 
-[^7]: [Selectors Level 4](https://www.w3.org/TR/selectors-4/#the-nth-of-type-pseudo) defines `:nth-of-type()` in terms of sibling elements; [CSS Lists and Counters Level 3](https://www.w3.org/TR/css-lists-3/#counters-in-elements-that-do-not-generate-boxes) says `display: none` elements cannot increment counters.
+[^7]: [Selectors Level 4](https://www.w3.org/TR/selectors-4/#the-nth-of-type-pseudo) defines `:nth-of-type()` in terms of sibling elements; [CSS Lists and Counters Level 3](https://www.w3.org/TR/css-lists-3/#counters-without-boxes) says `display: none` elements cannot increment counters.
 
 [^8]: The [specification introduction](https://www.w3.org/TR/css-counter-styles-3/#intro) states the typography motivation; its sections on [extending styles](https://www.w3.org/TR/css-counter-styles-3/#extends-system), [predefined styles](https://www.w3.org/TR/css-counter-styles-3/#complex-predefined-counters), and [anonymous styles](https://www.w3.org/TR/css-counter-styles-3/#symbols-function) give the examples and rationale.
