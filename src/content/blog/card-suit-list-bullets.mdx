@@ -1,5 +1,5 @@
 ---
-title: 'Styling my bullets like card suits'
+title: 'Styling list bullets like card suits'
 subtitle: 'Childhood reminiscence, styling my list markers, and CSS proposal archaeology'
 description: 'How to create a sequence of styled markers for list items using CSS'
 pubDate: 'Sep 29 2026'
@@ -34,20 +34,20 @@ Which, as long as the audience doesn't question why you have a couple of brass c
 never seen you carry around before, is an absolute showstopper.
 
 After some kind indulgences from my parents, my long-suffering older brother, and my French grandparents,
-who, not speaking any English, did an outstanding job at convincing me I _doing great things_, I was
+who, not speaking any English, did an outstanding job at convincing me I _was doing great things_, I was
 hooked. I'd hoodwinked these suckers with something I'd pulled out of an elaborate, yuletide sock only
 that morning. _And they loved it._ So began my love of magic.
 
-I quickly graduated to card magic: there's an abundance of material avaiable to the would-be card
+I quickly graduated to card magic: there's an abundance of material available to the would-be card
 manipulator; playing cards are near-universal; and, crucially, for a child who never conceived of the
 possibility of asking his parents for a bit more pocket money than the paltry amount that wasn't
 actually enough to do anything with (I'm actually over it. I'm fine.), playing cards are cheap. To me,
-they are also beautiful. See, for example: www.wickedkingdomdeck.com
+they are also beautiful. See, for example: [the Wicked Kingdom deck](https://www.wyliebeckert.com/?show=wickedkingdom).
 
 Which is why, when reflecting on how to add some personal flourishes to my personal website, it occurred
-to me that the markers (bullets) for my unordered lists, I landed on card suits. The symbols for these,
-conveniently, are in Unicode, which means I can use &spades; `U+2660`, &hearts; `U+2663`, &diams; `U+2665`,
-and &clubs; `U+2666` in CSS very easily.
+to me that the markers (bullets) for my unordered lists could be card suits. The symbols for these,
+conveniently, are in Unicode, which means I can use &spades; `U+2660`, &hearts; `U+2665`, &diams; `U+2666`,
+and &clubs; `U+2663` in CSS very easily.
 
 I thought it would be neat if the list items in my unordered lists (`ul` elements) looked like this:
 
@@ -59,8 +59,30 @@ I thought it would be neat if the list items in my unordered lists (`ul` element
 - _borrowing somebody else's eyes?!_
 
 The list markers go in sequence through spades, hearts, diamonds and clubs, and then repeat.
-Provided you knew of CSS's _immense power_, this has been relatively simple to achieve since
-July 2015, using the `nth-of-type()` pseudo-class:
+Provided you know of CSS's _immense power_, this is relatively simple to achieve using
+[`:nth-of-type()`](https://developer.mozilla.org/en-US/docs/Web/CSS/:nth-of-type), which became widely
+available in 2015.[^1] (Though back then you'd probably have had to use `list-style-image` with four image files
+or the [`::before`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/::before) pseudo-element.[^2])
+Now though, we can use `list-style-type` and a string.
+
+```css
+ul > li:nth-of-type(4n + 1) {
+  list-style-type: '♠︎  ';
+}
+ul > li:nth-of-type(4n + 2) {
+  list-style-type: '♥︎  ';
+}
+ul > li:nth-of-type(4n + 3) {
+  list-style-type: '♦︎  ';
+}
+ul > li:nth-of-type(4n) {
+  list-style-type: '♣︎  ';
+}
+```
+
+As is often the case with CSS, this is not the only way to achieve this effect. My first instinct was to
+use the [`::marker`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/::marker) pseudo-element,
+but `content` is not supported in Safari at time of writing.[^3] So this is not possible cross-browser:
 
 ```css
 ul > li:nth-of-type(4n + 1)::marker {
@@ -77,18 +99,112 @@ ul > li:nth-of-type(4n)::marker {
 }
 ```
 
-> [!info]
-> At time of writing, Safari doesn't support using `content` inside the `::marker` psuedo-element[^1],
-> but you could use `list-style-type` instead. Before that was available, we used to fake markers with a
-> `::before` pseudo-element, which risks confusing screen readers[^2].
+For the purposes of my website, where I'm in charge of the content and not likely hiding
+individual list items, I could stop here. But after going down a rabbit hole researching `::marker` (Safari
+does support the `font-size` and `color` properties, for instance), I discovered that CSS can count.
 
-For the purposes of my blog, this is already good enough.
+## Let the list do the counting
 
-[^1]: See https://bugs.webkit.org/show_bug.cgi?id=204163 for discussion
+CSS has a more direct way to describe the pattern: [`@counter-style`](https://developer.mozilla.org/en-US/docs/Web/CSS/@counter-style).
+Each list item, _even in an unordered list_, already has a number behind the scenes; this rule says how to
+_display_ that number. Here is what this site uses:
 
-[^2]:
-    The `::before` trick requires setting `list-style: none`, which can make Safari/VoiceOver
-    stop announcing a `<ul>` as a list. [Scott O'Hara](https://www.scottohara.me/blog/2019/01/12/lists-and-safari.html)
-    recommends using `<ul role="list">` to counteract this, but it introduces fragility. Moreover, there's
-    a risk that a [screenreader will announce the `::before` content](https://webaim.org/techniques/css/#:~:text=Because%20CSS%20is%20primarily,read%20by%20screen%20readers.),
-    e.g. "spade suit".
+```css
+@counter-style card-suits {
+  system: cyclic;
+  symbols: '♠︎' '♥︎' '♦︎' '♣︎';
+  suffix: ' ';
+}
+
+ul {
+  list-style-type: card-suits;
+}
+```
+
+`cyclic` means that item five returns to the first: ♠︎. One definition covers every list, however long it is.
+This is really nice, and it's worth checking out the other properties you can define for
+[`@counter-style`](https://developer.mozilla.org/en-US/docs/Web/CSS/@counter-style). Unsurprisingly though,
+there is yet a third route that would achieve the same effect, using
+[`symbols()`](https://developer.mozilla.org/en-US/docs/Web/CSS/symbols).
+
+```css
+ul {
+  list-style-type: symbols(cyclic '♠︎' '♥︎' '♦︎' '♣︎');
+}
+```
+
+The word `cyclic` is doing real work here. Leave it out and the default is `symbolic`: after the
+four single suits, you'd get ♠︎♠︎, ♥︎♥︎, and so on, which is excellent for footnote symbols, which
+conventionally follow this sequence *, †, ‡, §, \*\*, ††, ‡‡.[^5] If you need to reuse a style,
+control its separator, define a fallback, or give a hint about how it should be *spoken\*, you
+need the full `@counter-style` rule. For an anonymous one-off, `symbols()` will be an option
+once browser support catches up. Firefox implemented both in 2014; `@counter-style` reached Chrome
+and Edge in 2021 and Safari in 2023, but `symbols()` still has limited availability.[^6]
+
+While these features can be used to achieve my particular effect, they aren't merely longer and shorter
+ways to achieve the same thing. Understanding how they work, and their subtle differences, unlocks their
+various use cases, and potential gotchas.
+
+`:nth-of-type()` counts element siblings in the HTML, including ones hidden with `display: none`. But a
+counter doesn't advance for an item that isn't displayed.[^7] So, if you hide the second item in a five-item
+list, then the `:nth-of-type()` selector will produce ♠︎ ♦︎ ♣︎ ♠︎ (note that the heart is missing), but a cyclic
+counter style will still produce the four suits in order: ♠︎ ♥︎ ♦︎ ♣︎.
+
+Imagine you were showing a list of filtered search results. You'd probably want the _visible_ sequence to
+close up. For four fixed slots where a hidden slot should retain its place, then the `:nth-of-type()`
+selector is precisely right. The question to ask yourself is \_what are you counting?
+
+A plainer demonstration of the differences would be to use [`<ol start="3">`](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/ol#start).
+Using a counter style means starting at ♦︎. But the first `<li>` is still the first `<li>`, so `:nth-of-type()` starts at ♠︎.
+
+There is one annoying catch. This site's hearts and diamonds are red because I still colour the second
+and third `<li>` markers with `:nth-of-type()`. If I were to hide an item, the counter style would
+advance past it, but my colour rule would not, and I'd end up with a red spade. (Oh, the shame!)
+`@counter-style` chooses the _symbol_, not a different CSS colour for each symbol. Fine for my static
+lists; not a complete solution for a filterable list. There I'd need to keep suit and colour together
+in the rendered data, or use coloured image markers, rather than pretend the selector and the counter agree.
+
+## Rummaging amongst the guts of CSS specifications
+
+Understanding this to a high degree of accuracy required going to the source. Doing so - i.e. having the
+knowledge, tenacity, courage and humility to do so - is, I believe, a key trait of what distinguishes a
+more "senior" developer, and one I've observed in the colleagues I've emulated over the years. The same trait
+can also manifest as digging into a library's source code or reading Github issues, and generally resembles
+detective work of an incredibly dull nature.
+
+Here's how to recreate the journey I went on. Start at the [MDN page for `@counter-style`](https://developer.mozilla.org/en-US/docs/Web/CSS/@counter-style),
+follow its "Specifications" link to [CSS Counter Styles Level 3](https://www.w3.org/TR/css-counter-styles-3/),
+then read the _introduction_ before the syntax. It says that the built-in styles weren't enough for
+"worldwide typography". The suits are a toy example of a much bigger problem: representing numbering
+systems and conventions that don't fit `1.`, `a.`, or `•`. The spec's examples include extending
+decimal numbering to produce `1)` rather than `1.`, and styles for Chinese and Ethiopic numerals.
+It also explains why `symbols()` exists: a compact style you only intend to use once.[^8]
+
+From there, the [2015 Mozilla introduction](https://hacks.mozilla.org/2015/02/introducing-counter-styles/)
+shows what implementers thought was exciting at the time. The [earlier drafts](https://www.w3.org/TR/2015/CR-css-counter-styles-3-20150611/)
+and [CSS Working Group issue tracker](https://github.com/w3c/csswg-drafts/labels/css-counter-styles-3)
+show how the ideas evolved; [browser compatibility data](https://developer.mozilla.org/en-US/docs/Web/CSS/@counter-style#browser_compatibility)
+and the [WebKit `::marker` discussion](https://bugs.webkit.org/show_bug.cgi?id=204163) show the gap
+between a written specification and the browser in somebody's hand.
+
+> [!tip]
+> This reveals a route that might be worth keeping in mind when researching unfamiliar CSS features:
+> MDN docs for the doorway → the spec for the _why_ → issues for the arguments → compatibility data for the reality check.
+
+I dedicate this blog post to my seven year old self, who continues to inspire me. He would not have cared to read this.
+
+[^1]: [MDN's `:nth-of-type()` compatibility summary](https://developer.mozilla.org/en-US/docs/Web/CSS/:nth-of-type) gives July 2015 as its Baseline date.
+
+[^2]: `::before` typically means removing the native marker with `list-style: none`. Safari/VoiceOver can then lose list semantics, although non-empty generated content may restore them; [Scott O'Hara recommends](https://www.scottohara.me/blog/2019/01/12/lists-and-safari.html) an explicit `<ul role="list">` where the list should still be announced. [WebAIM notes](https://webaim.org/techniques/css/) that screen readers may also read generated content.
+
+[^3]: [WebKit bug 204163](https://bugs.webkit.org/show_bug.cgi?id=204163) tracks support for `content` on `::marker`. Safari can style a marker's colour without accepting new marker content.
+
+[^4]: [Compatibility data for string-valued `list-style-type`](https://caniuse.com/mdn-css_properties_list-style-type_string).
+
+[^5]: See the [counter-styles specification's `symbols()` examples](https://www.w3.org/TR/css-counter-styles-3/#symbols-function): its default is `symbolic`, not `cyclic`.
+
+[^6]: [Browser adoption for `@counter-style`](https://web-platform-dx.github.io/web-features-explorer/features/counter-style/) and [MDN's `symbols()` support note](https://developer.mozilla.org/en-US/docs/Web/CSS/symbols). Support for a feature's core syntax does not imply support for every descriptor: for example, [`speak-as` has its own compatibility story](https://developer.mozilla.org/en-US/docs/Web/CSS/@counter-style/speak-as).
+
+[^7]: [Selectors Level 4](https://www.w3.org/TR/selectors-4/#the-nth-of-type-pseudo) defines `:nth-of-type()` in terms of sibling elements; [CSS Lists and Counters Level 3](https://www.w3.org/TR/css-lists-3/#counters-in-elements-that-do-not-generate-boxes) says `display: none` elements cannot increment counters.
+
+[^8]: The [specification introduction](https://www.w3.org/TR/css-counter-styles-3/#intro) states the typography motivation; its sections on [extending styles](https://www.w3.org/TR/css-counter-styles-3/#extends-system), [predefined styles](https://www.w3.org/TR/css-counter-styles-3/#complex-predefined-counters), and [anonymous styles](https://www.w3.org/TR/css-counter-styles-3/#symbols-function) give the examples and rationale.

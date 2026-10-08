@@ -53,15 +53,28 @@ export default defineConfig({
     processor: satteri({
       features: {
         gfm: {
-          // Default footnote configuration
           footnotes: {
             backContent: '↩',
             backLabel: 'Back to reference {reference}',
-            label: 'Footnotes',
+            label: 'Notes',
           },
         },
       },
-      hastPlugins: [satteriCallouts()],
+      hastPlugins: [
+        satteriCallouts(),
+        {
+          name: 'visible-footnote-heading',
+          element: {
+            filter: ['h2'],
+            visit(node, ctx) {
+              // Sätteri already generates this heading, but hides it by default.
+              if (node.properties?.id === 'footnote-label') {
+                ctx.setProperty(node, 'className', null);
+              }
+            },
+          },
+        },
+      ],
     }),
   },
 });
