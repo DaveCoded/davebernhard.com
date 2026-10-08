@@ -4,6 +4,8 @@ import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import { defineConfig, fontProviders } from 'astro/config';
 import { clickToSource } from 'astro-click-to-source';
+import { satteri } from '@astrojs/markdown-satteri';
+import satteriCallouts from 'satteri-callouts';
 
 // https://astro.build/config
 export default defineConfig({
@@ -48,5 +50,18 @@ export default defineConfig({
     shikiConfig: {
       theme: 'rose-pine-dawn',
     },
+    processor: satteri({
+      features: {
+        gfm: {
+          // Default footnote configuration
+          footnotes: {
+            backContent: '↩',
+            backLabel: 'Back to reference {reference}',
+            label: 'Footnotes',
+          },
+        },
+      },
+      hastPlugins: [satteriCallouts()],
+    }),
   },
 });

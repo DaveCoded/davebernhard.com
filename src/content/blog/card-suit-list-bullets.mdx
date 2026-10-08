@@ -1,0 +1,94 @@
+---
+title: 'Styling my bullets like card suits'
+subtitle: 'Childhood reminiscence, styling my list markers, and CSS proposal archaeology'
+description: 'How to create a sequence of styled markers for list items using CSS'
+pubDate: 'Sep 29 2026'
+---
+
+import { Image } from 'astro:assets';
+import dynamicCoins from '../../assets/images/card-suit-list-bullets/dynamic-coins-transparent.png';
+
+When I was seven years old (as I recollect. In truth I'm not certain of my age but I was definitely
+_around seven_, and besides, that's the age I always am whenever I remember being a child and not
+_knowing_ how old I was), I got a magic trick in my Christmas stocking.
+
+The trick is published by Marvin's Magic, which is a decent place to get something of decent quality
+for an aspiring young illusionist, and it's called <span style="font-variant: petite-caps;">Dynamic Coins</span>™.
+The performer starts with a verifiably empty brass cap. But when it's placed face down on the table,
+and after an enigmatic incantation is uttered, and an appropriately mysterious gesture is executed, a stack
+of 10p coins is revealed when the brass cap is lifted.
+
+<figure>
+  <Image
+    src={dynamicCoins}
+    alt="Product box for the Marvin's Magic Dynamic Coins trick"
+    width={440}
+    style={'display: block; margin-inline: auto;'}
+  />
+  <figcaption>
+    Probably still available at places like Hamley's or online
+  </figcaption>
+</figure>
+
+Which, as long as the audience doesn't question why you have a couple of brass caps and a brass ring they've
+never seen you carry around before, is an absolute showstopper.
+
+After some kind indulgences from my parents, my long-suffering older brother, and my French grandparents,
+who, not speaking any English, did an outstanding job at convincing me I _doing great things_, I was
+hooked. I'd hoodwinked these suckers with something I'd pulled out of an elaborate, yuletide sock only
+that morning. _And they loved it._ So began my love of magic.
+
+I quickly graduated to card magic: there's an abundance of material avaiable to the would-be card
+manipulator; playing cards are near-universal; and, crucially, for a child who never conceived of the
+possibility of asking his parents for a bit more pocket money than the paltry amount that wasn't
+actually enough to do anything with (I'm actually over it. I'm fine.), playing cards are cheap. To me,
+they are also beautiful. See, for example: www.wickedkingdomdeck.com
+
+Which is why, when reflecting on how to add some personal flourishes to my personal website, it occurred
+to me that the markers (bullets) for my unordered lists, I landed on card suits. The symbols for these,
+conveniently, are in Unicode, which means I can use &spades; `U+2660`, &hearts; `U+2663`, &diams; `U+2665`,
+and &clubs; `U+2666` in CSS very easily.
+
+I thought it would be neat if the list items in my unordered lists (`ul` elements) looked like this:
+
+- And now,
+- as you can well see with your own eyes,
+- unless you're hard of sight
+- in which case, my apologies,
+- or you happen to currently be...
+- _borrowing somebody else's eyes?!_
+
+The list markers go in sequence through spades, hearts, diamonds and clubs, and then repeat.
+Provided you knew of CSS's _immense power_, this has been relatively simple to achieve since
+July 2015, using the `nth-of-type()` pseudo-class:
+
+```css
+ul > li:nth-of-type(4n + 1)::marker {
+  content: '♠︎ ';
+}
+ul > li:nth-of-type(4n + 2)::marker {
+  content: '♥︎ ';
+}
+ul > li:nth-of-type(4n + 3)::marker {
+  content: '♦︎ ';
+}
+ul > li:nth-of-type(4n)::marker {
+  content: '♣︎ ';
+}
+```
+
+> [!info]
+> At time of writing, Safari doesn't support using `content` inside the `::marker` psuedo-element[^1],
+> but you could use `list-style-type` instead. Before that was available, we used to fake markers with a
+> `::before` pseudo-element, which risks confusing screen readers[^2].
+
+For the purposes of my blog, this is already good enough.
+
+[^1]: See https://bugs.webkit.org/show_bug.cgi?id=204163 for discussion
+
+[^2]:
+    The `::before` trick requires setting `list-style: none`, which can make Safari/VoiceOver
+    stop announcing a `<ul>` as a list. [Scott O'Hara](https://www.scottohara.me/blog/2019/01/12/lists-and-safari.html)
+    recommends using `<ul role="list">` to counteract this, but it introduces fragility. Moreover, there's
+    a risk that a [screenreader will announce the `::before` content](https://webaim.org/techniques/css/#:~:text=Because%20CSS%20is%20primarily,read%20by%20screen%20readers.),
+    e.g. "spade suit".
